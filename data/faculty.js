@@ -1,0 +1,55 @@
+/* =========================================================
+   EDIT ME — Faculty data (Principal & Club Faculty In-charge)
+   ---------------------------------------------------------
+   This is the ONLY file you need to touch to update the
+   /faculty page.
+
+   Each person supports:
+     name     : full name (required)
+     role     : designation, e.g. "Principal" (required)
+     dept     : department / affiliation line (optional)
+     intro    : 1–3 sentence introduction (optional)
+     photo    : filename inside /public (optional — until set,
+                a large "Add photo" placeholder frame shows)
+     linkedin : profile URL (optional)
+     email    : email address (optional)
+
+   To show a photo: drop the image into /public and set
+   `photo: "principal.jpg"` (or whatever you name it).
+========================================================= */
+
+// The Principal — shown as a single large featured card up top.
+const principal = {
+  name: "Add Principal's Name",
+  role: "Principal",
+  dept: "Guru Nanak Institute of Technology, Kolkata",
+  intro: "Placeholder — add a short message or introduction for the Principal, whose leadership and support make the MSA-GNIT chapter possible.",
+  photo: "",           // e.g. "principal.jpg"
+  linkedin: "",
+  email: ""
+};
+
+// Club Faculty In-charge(s) — one or more cards below the Principal.
+// Add or remove entries freely.
+const facultyIncharge = [
+  {
+    name: "Add Faculty In-charge Name",
+    role: "Club Faculty In-charge",
+    dept: "Department of ______, GNIT",
+    intro: "Placeholder — add a short intro for the faculty in-charge who mentors and guides the MSA-GNIT chapter.",
+    photo: "",         // e.g. "faculty-incharge-1.jpg"
+    linkedin: "",
+    email: ""
+  },
+  {
+    name: "Add Faculty In-charge Name",
+    role: "Club Faculty Co-in-charge",
+    dept: "Department of ______, GNIT",
+    intro: "Placeholder — add a short intro for the co-in-charge faculty (remove this entry if there's only one in-charge).",
+    photo: "",         // e.g. "faculty-incharge-2.jpg"
+    linkedin: "",
+    email: ""
+  }
+];
+
+module.exports = { principal, facultyIncharge };

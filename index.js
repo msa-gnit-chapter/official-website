@@ -3,6 +3,7 @@ const path = require("path");
 
 // Editable content lives in /data — update those files, not the views.
 const { coreTeam, advisors } = require("./data/team");
+const { principal, facultyIncharge } = require("./data/faculty");
 const blogs = require("./data/blogs");
 const msTech = require("./data/mstech");
 
@@ -45,6 +46,18 @@ app.get("/team", (req, res) => {
       "Meet the core team and advisors behind the Microsoft Student Ambassadors GNIT Chapter.",
     coreTeam,
     advisors,
+  });
+});
+
+// Faculty — Principal & Club Faculty In-charge
+app.get("/faculty", (req, res) => {
+  res.render("faculty", {
+    currentPath: "/faculty",
+    title: "Faculty | MSA GNIT",
+    description:
+      "The Principal and faculty in-charge of Guru Nanak Institute of Technology who guide the Microsoft Student Ambassadors GNIT Chapter.",
+    principal,
+    facultyIncharge,
   });
 });
 
