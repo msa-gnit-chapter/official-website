@@ -30,7 +30,7 @@ const coreTeam = [
     intro: "Chapter Lead of MSA-GNIT — drives the chapter's vision, flagship events, and the growing community of student builders at GNIT.",
     photoCard: true,
     photo: "chapter-lead.jpg",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/ayushsin9h/",
     github: ""
   },
   {
@@ -93,27 +93,35 @@ const coreTeam = [
 
 const advisors = [
   {
-    name: "Add Advisor's Name",
-    role: "Faculty Advisor",
-    intro: "Placeholder — add your faculty advisor's designation, department, and a line on how they guide the chapter.",
-    photoCard: true,
-    photo: "",
-    linkedin: ""
-  },
-  {
     name: "PIYUSH KUMAR",
     role: "FOUNDER & ADVISOR",
-    intro: "Placeholder — add your co-advisor's designation, department, and a short introduction.",
+    intro: "Microsoft Learn Student Ambassador (Beta)",
     photoCard: true,
     photo: "founder-advisor.jpg",
     linkedin: ""
   },
   {
-    name: "Add Mentor's Name",
-    role: "Industry Mentor",
-    intro: "Placeholder — add an industry mentor or Gold MLSA who guides the chapter (e.g. a speaker from your inauguration).",
+    name: " RISHAV GUPTA",
+    role: "Veteran Advisor",
+    intro: "",
     photoCard: true,
-    photo: "",
+    photo: "advisor-2.jpg",
+    linkedin: ""
+  },
+  {
+    name: "ADARSH JAISWAL",
+    role: "Veteran Advisor",
+    intro: "",
+    photoCard: true,
+    photo: "advisor-3.jpg",
+    linkedin: ""
+  },
+   {
+    name: "ADITYA KUMAR JHA",
+    role: "Veteran Advisor",
+    intro: "",
+    photoCard: true,
+    photo: "advisor-4.jpg",
     linkedin: ""
   }
 ];
