@@ -81,6 +81,13 @@ const coreTeam = [
     intro: "Runs the chapter's outreach, partnerships, and event coordination.",
     linkedin: "",
     github: ""
+  },
+  {
+    name: "",
+    role: "Content",
+    intro: "",
+    linkedin: "",
+    github: ""
   }
 ];
 
