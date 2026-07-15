@@ -20,10 +20,10 @@
 
 // The Principal — shown as a single large featured card up top.
 const principal = {
-  name: "Add Principal's Name",
+  name: "Prof. (Dr.) Swarup Kumar Mitra Principal",
   role: "Principal",
   dept: "Guru Nanak Institute of Technology, Kolkata",
-  intro: "Placeholder — add a short message or introduction for the Principal, whose leadership and support make the MSA-GNIT chapter possible.",
+  intro: "GNIT is a multidisciplinary education hub and seat of integrated learning promoting unfettered liberal thinking, creativity and innovation in the domain of Technology, Management Sciences, and Applied Sciences.",
   photo: "principal.jpg",
   linkedin: "",
   email: ""
@@ -33,9 +33,9 @@ const principal = {
 // Add or remove entries freely.
 const facultyIncharge = [
   {
-    name: "Add Faculty In-charge Name",
+    name: "Dr. Mahamuda Sultana",
     role: "Club Faculty In-charge",
-    dept: "Department of ______, GNIT",
+    dept: "Department of Computer Science & Engineering, GNIT",
     intro: "Placeholder — add a short intro for the faculty in-charge who mentors and guides the MSA-GNIT chapter.",
     photo: "facultyIncharge.jpg",
     linkedin: "",
