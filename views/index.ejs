@@ -121,42 +121,19 @@
   .hero .btn-ghost{border-color:rgba(255,255,255,0.5);color:#fff;}
   .hero .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,0.14);}
 
-  /* ---------- about: video background ---------- */
+  /* ---------- about ---------- */
   #about{
     position:relative;
     overflow:hidden;
     isolation:isolate;
   }
-  .about-video-wrap{
-    position:absolute;
-    top:50%;left:50%;
-    width:100vw;height:56.25vw;
-    min-height:100%;min-width:177.78%;
-    transform:translate(-50%,-50%);
-    pointer-events:none;
-    z-index:0;
-  }
-  .about-video-wrap iframe{width:100%;height:100%;}
   #about::before{
     content:'';
-    position:absolute;inset:0;z-index:1;
+    position:absolute;inset:0;z-index:0;
     background:
-      linear-gradient(180deg, rgba(251,243,238,0.9) 0%, rgba(251,243,238,0.8) 35%, rgba(251,243,238,0.92) 100%);
+      radial-gradient(ellipse 55% 60% at 12% 0%, rgba(216,59,1,0.06), transparent 60%),
+      radial-gradient(ellipse 50% 55% at 90% 100%, rgba(110,20,35,0.05), transparent 60%);
   }
-  .about-video-toggle{
-    position:absolute;
-    bottom:28px;right:32px;
-    z-index:3;
-    width:46px;height:46px;border-radius:50%;
-    background:rgba(255,252,250,0.65);backdrop-filter:blur(10px);
-    border:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--text-hi);
-    transition:border-color .25s ease, transform .25s cubic-bezier(.16,.84,.44,1), background .25s ease;
-  }
-  .about-video-toggle:hover{border-color:rgba(217,72,27,0.5);transform:translateY(-2px) scale(1.05);background:rgba(255,252,250,0.85);}
-  .about-video-toggle svg{width:18px;height:18px;stroke:currentColor;fill:none;}
-  .about-video-toggle.pulse{animation:pulseRing 2.4s ease-out infinite;}
   #about .wrap, #about .about-rail{position:relative;z-index:2;}
 
   /* ---------- about (timeline rail) ---------- */
@@ -315,14 +292,6 @@
 </section>
 
 <section id="about">
-  <div class="about-video-wrap"><div id="yt-player-about"></div></div>
-  <button class="about-video-toggle pulse" id="aboutMuteToggle" aria-pressed="true" aria-label="Unmute background video">
-    <svg id="aboutMuteIcon" viewBox="0 0 24 24" stroke-width="1.7">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M11 5 6 9H2v6h4l5 4V5z"/>
-      <path stroke-linecap="round" stroke-linejoin="round" d="M16 8a5 5 0 010 8M19 5a9 9 0 010 14" id="aboutMuteWaves"/>
-      <path stroke-linecap="round" d="M17 8l5 8M22 8l-5 8" id="aboutMuteSlash" style="display:none"/>
-    </svg>
-  </button>
   <div class="wrap">
     <div class="about-rail">
       <div class="rail-line"><div class="rail-dot"></div></div>
@@ -462,6 +431,22 @@
       </div>
       <a class="cf-link" href="https://www.linkedin.com/posts/devtown-in_devtown-microsoftstudentambassador-collaboration-activity-7456283879352745984-pQWn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.11 20.45H3.56V9h3.55v11.45z"/></svg>View the announcement</a>
     </div>
+    <div class="collab-feature reveal">
+      <div>
+        <div class="cf-eyebrow">Featured collaboration</div>
+        <h3>MSA GNIT × Add Partner</h3>
+        <p>Placeholder — describe your second collaboration here (who the partner is and what it brings to GNIT students), then point the link at the announcement.</p>
+      </div>
+      <a class="cf-link" href="https://www.linkedin.com/company/msa-gnit/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.11 20.45H3.56V9h3.55v11.45z"/></svg>View the announcement</a>
+    </div>
+    <div class="collab-feature reveal">
+      <div>
+        <div class="cf-eyebrow">Featured collaboration</div>
+        <h3>MSA GNIT × Add Partner</h3>
+        <p>Placeholder — describe your third collaboration here (who the partner is and what it brings to GNIT students), then point the link at the announcement.</p>
+      </div>
+      <a class="cf-link" href="https://www.linkedin.com/company/msa-gnit/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.11 20.45H3.56V9h3.55v11.45z"/></svg>View the announcement</a>
+    </div>
     <div class="collab-actions reveal">
       <p>Have an idea for a collaboration, or want to bring your community to GNIT? We reply fast.</p>
       <a href="mailto:msagnit@outlook.com?subject=Collaboration%20with%20MSA%20GNIT" class="btn btn-primary">Propose a collaboration <span class="arrow">↗</span></a>
@@ -532,40 +517,6 @@
     statObserver.observe(document.querySelector('.hero-stats'));
   }
 
-  /* ---------- "About" section: YouTube autoplay/mute background ---------- */
-  const ABOUT_VIDEO_ID = 'QQ7X0vQAXoQ';
-  let ytPlayerAbout;
-
-  const ytTag = document.createElement('script');
-  ytTag.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(ytTag);
-
-  window.onYouTubeIframeAPIReady = function(){
-    ytPlayerAbout = new YT.Player('yt-player-about', {
-      videoId: ABOUT_VIDEO_ID,
-      playerVars:{
-        autoplay:1, mute:1, controls:0, playsinline:1,
-        rel:0, modestbranding:1, loop:1, playlist:ABOUT_VIDEO_ID,
-        disablekb:1, showinfo:0
-      },
-      events:{
-        onReady: e => { e.target.mute(); e.target.playVideo(); }
-      }
-    });
-  };
-
-  const aboutMuteToggle = document.getElementById('aboutMuteToggle');
-  const aboutMuteSlash = document.getElementById('aboutMuteSlash');
-  let aboutIsMuted = true;
-  aboutMuteToggle.addEventListener('click', () => {
-    if(!ytPlayerAbout) return;
-    aboutIsMuted = !aboutIsMuted;
-    if(aboutIsMuted){ ytPlayerAbout.mute(); } else { ytPlayerAbout.unMute(); }
-    aboutMuteToggle.setAttribute('aria-pressed', String(aboutIsMuted));
-    aboutMuteToggle.setAttribute('aria-label', aboutIsMuted ? 'Unmute background video' : 'Mute background video');
-    aboutMuteSlash.style.display = aboutIsMuted ? 'block' : 'none';
-    aboutMuteToggle.classList.toggle('pulse', aboutIsMuted);
-  });
 </script>
 
 </body>
