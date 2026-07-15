@@ -24,7 +24,7 @@ const principal = {
   role: "Principal",
   dept: "Guru Nanak Institute of Technology, Kolkata",
   intro: "Placeholder — add a short message or introduction for the Principal, whose leadership and support make the MSA-GNIT chapter possible.",
-  photo: "",           // e.g. "principal.jpg"
+  photo: "principal.jpg",
   linkedin: "",
   email: ""
 };
@@ -37,7 +37,7 @@ const facultyIncharge = [
     role: "Club Faculty In-charge",
     dept: "Department of ______, GNIT",
     intro: "Placeholder — add a short intro for the faculty in-charge who mentors and guides the MSA-GNIT chapter.",
-    photo: "",         // e.g. "faculty-incharge-1.jpg"
+    photo: "facultyIncharge.jpg",
     linkedin: "",
     email: ""
   },
