@@ -1,0 +1,46 @@
+<%
+  // currentPath is passed by each route; defaults keep the partial safe
+  const cp = typeof currentPath !== "undefined" ? currentPath : "";
+  const links = [
+    { href: "/#about",     label: "About" },
+    { href: "/#domains",   label: "Domains" },
+    { href: "/team",       label: "Team" },
+    { href: "/events",     label: "Events" },
+    { href: "/inaugural",  label: "Inaugural" },
+    { href: "/blogs",      label: "Blogs" },
+    { href: "/#ms-tech",   label: "Resources" },
+    { href: "/#contact",   label: "Contact" }
+  ];
+%>
+<header>
+  <div class="nav">
+    <a href="/" class="brand">
+      <img class="brand-mark" src="/MSA_LOGO.jpeg" alt="MSA GNIT logo">
+      <div class="brand-text">
+        <div class="l1">Microsoft Learn Student Ambassador</div>
+        <div class="l2">GNIT Chapter</div>
+      </div>
+    </a>
+    <nav class="links">
+      <% links.forEach(l => { %>
+        <a href="<%= l.href %>" <%= l.href === cp ? 'aria-current="page"' : "" %>><%= l.label %></a>
+      <% }) %>
+    </nav>
+    <a href="/#collaborate" class="nav-cta"><span>Join the Chapter <span class="arrow-inline">→</span></span></a>
+    <button class="nav-toggle" aria-label="menu">☰</button>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<nav class="mobile-panel">
+  <a href="/">Home</a>
+  <a href="/#about">About</a>
+  <a href="/#domains">Domains</a>
+  <a href="/team">Team</a>
+  <a href="/events">Events</a>
+  <a href="/inaugural">Inaugural</a>
+  <a href="/blogs">Blogs</a>
+  <a href="/#ms-tech">Microsoft Tech</a>
+  <a href="/#collaborate">Collaborate</a>
+  <a href="/#contact">Contact</a>
+</nav>

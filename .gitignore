@@ -1,0 +1,21 @@
+# dependencies (reinstalled from package.json — never commit these)
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# environment / secrets
+.env
+.env.*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# vercel
+.vercel

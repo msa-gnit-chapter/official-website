@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include("partials/head") %>
+<style>
+  /* ---------- photo hero ---------- */
+  .in-hero{position:relative;height:66vh;min-height:400px;overflow:hidden;background:var(--bg);padding:0;}
+  .in-hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0;}
+  .in-hero::before{
+    content:'';position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg, rgba(30,10,6,0.22) 0%, transparent 30%, transparent 78%, var(--bg) 99%);
+  }
+  /* ---------- title block below the photo (dark text on cream) ---------- */
+  .in-title{padding:72px 0 0;}
+  .in-title h1{
+    font-family:var(--font-display);font-weight:800;
+    font-size:clamp(36px,6vw,64px);line-height:1.08;letter-spacing:-0.01em;
+    max-width:900px;color:var(--text-hi);
+    margin-top:16px;
+  }
+  .in-title h1 .grad{background:linear-gradient(100deg,var(--cyan),var(--azure) 55%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .in-meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:24px;}
+  .in-meta div{display:flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:13px;color:var(--text-mid);}
+  .in-meta svg{width:15px;height:15px;stroke:var(--cyan);fill:none;flex-shrink:0;}
+
+  /* ---------- story ---------- */
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+  .story-text p{color:var(--text-mid);font-size:15px;line-height:1.85;}
+  .story-text p + p{margin-top:18px;}
+  .story-text p strong{color:var(--text-hi);font-weight:600;}
+  .in-stats{
+    display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  }
+  .in-stat{background:var(--bg-panel);padding:30px 28px;}
+  .in-stat .num{font-family:var(--font-display);font-weight:700;font-size:30px;color:var(--text-hi);}
+  .in-stat .num span{color:var(--cyan);}
+  .in-stat .lbl{font-size:12.5px;color:var(--text-dim);margin-top:6px;letter-spacing:.02em;line-height:1.5;}
+
+  /* ---------- speakers ---------- */
+  .speakers-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .speaker{
+    background:linear-gradient(180deg,var(--bg-panel),var(--bg-panel-2));
+    border:1px solid var(--line);border-radius:16px;padding:34px 30px;
+    transition:border-color .3s ease, transform .3s cubic-bezier(.16,.84,.44,1), box-shadow .3s ease;
+  }
+  .speaker:hover{transform:translateY(-6px);border-color:rgba(217,72,27,0.35);box-shadow:0 20px 40px -24px rgba(216,59,1,0.5);}
+  .speaker .s-topic{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--cyan);display:inline-block;padding:5px 11px;border:1px solid rgba(217,72,27,0.3);
+    border-radius:999px;margin-bottom:20px;
+  }
+  .speaker h3{font-family:var(--font-display);font-size:21px;font-weight:700;}
+  .speaker .s-role{color:var(--text-dim);font-size:13.5px;margin-top:6px;}
+  .speaker p.s-desc{color:var(--text-mid);font-size:14px;line-height:1.75;margin-top:14px;}
+
+  /* ---------- agenda timeline ---------- */
+  .agenda{max-width:760px;margin:0 auto;}
+  .agenda-item{
+    display:grid;grid-template-columns:110px 24px 1fr;gap:0 22px;
+    position:relative;padding-bottom:34px;
+  }
+  .agenda-item:last-child{padding-bottom:0;}
+  .agenda-item::before{
+    content:'';position:absolute;left:calc(110px + 22px + 11px);top:22px;bottom:-4px;width:1px;
+    background:linear-gradient(180deg,rgba(217,72,27,0.5),rgba(110,20,35,0.2));
+  }
+  .agenda-item:last-child::before{display:none;}
+  .agenda-time{font-family:var(--font-mono);font-size:12.5px;color:var(--cyan);padding-top:2px;text-align:right;}
+  .agenda-dot{
+    width:23px;height:23px;border-radius:50%;margin-top:0;
+    background:radial-gradient(circle,var(--cyan),rgba(217,72,27,0.12));
+    border:1px solid rgba(217,72,27,0.4);
+    position:relative;z-index:1;
+  }
+  .agenda-body h3{font-family:var(--font-display);font-size:16.5px;font-weight:700;color:var(--text-hi);}
+  .agenda-body p{color:var(--text-mid);font-size:13.5px;line-height:1.65;margin-top:6px;}
+
+  /* ---------- gallery ---------- */
+  .in-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .in-tile{
+    position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;
+    border:1px solid var(--line);background:var(--bg-panel-2);
+    padding:0;
+    transition:transform .3s cubic-bezier(.16,.84,.44,1), border-color .3s ease;
+  }
+  .in-tile img{width:100%;height:100%;object-fit:cover;transition:transform .45s cubic-bezier(.16,.84,.44,1);}
+  .in-tile:hover{transform:translateY(-4px);border-color:rgba(217,72,27,0.4);}
+  .in-tile:hover img{transform:scale(1.06);}
+  .in-tile:nth-child(1){grid-column:span 2;grid-row:span 2;aspect-ratio:auto;}
+
+  /* ---------- lightbox ---------- */
+  .lightbox{position:fixed;inset:0;z-index:400;background:rgba(26,9,5,0.9);display:flex;align-items:center;justify-content:center;gap:18px;opacity:0;pointer-events:none;transition:opacity .3s ease;padding:32px;}
+  .lightbox.open{opacity:1;pointer-events:auto;}
+  .lightbox-viewport{
+    width:min(820px,100%);aspect-ratio:4/3;border-radius:16px;overflow:hidden;position:relative;
+    transform:scale(.9);transition:transform .4s cubic-bezier(.16,.84,.44,1);
+    box-shadow:0 40px 80px -30px rgba(0,0,0,0.7);background:#000;
+  }
+  .lightbox.open .lightbox-viewport{transform:scale(1);}
+  .lightbox-track{display:flex;height:100%;width:100%;transition:transform .5s cubic-bezier(.16,.84,.44,1);}
+  .lightbox-slide{flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;background:#000;}
+  .lightbox-slide img{width:100%;height:100%;object-fit:contain;}
+  .lightbox-slide .lightbox-caption{
+    position:absolute;bottom:16px;left:18px;
+    font-family:var(--font-mono);font-size:12px;color:rgba(255,255,255,0.8);
+    letter-spacing:.04em;background:rgba(0,0,0,0.4);padding:4px 10px;border-radius:999px;
+  }
+  .lightbox-close{position:absolute;top:26px;right:26px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.25);color:#fff;display:flex;align-items:center;justify-content:center;transition:transform .25s ease, background .25s ease;z-index:2;}
+  .lightbox-close:hover{transform:rotate(90deg);background:rgba(255,255,255,0.16);}
+  .lightbox-close svg{width:16px;height:16px;stroke:currentColor;fill:none;}
+  .lightbox-nav{
+    width:46px;height:46px;border-radius:50%;flex-shrink:0;
+    background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.22);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .25s cubic-bezier(.16,.84,.44,1), background .25s ease, border-color .25s ease;
+  }
+  .lightbox-nav svg{width:18px;height:18px;stroke:currentColor;fill:none;}
+  .lightbox-nav:hover{background:rgba(255,255,255,0.18);border-color:rgba(217,72,27,0.5);transform:scale(1.08);}
+
+  @media (max-width:960px){
+    .story-grid{grid-template-columns:1fr;gap:44px;}
+    .speakers-grid{grid-template-columns:1fr;}
+    .in-gallery{grid-template-columns:repeat(2,1fr);}
+    .agenda-item{grid-template-columns:80px 24px 1fr;gap:0 14px;}
+    .agenda-item::before{left:calc(80px + 14px + 11px);}
+    .lightbox-nav{width:38px;height:38px;}
+  }
+</style>
+</head>
+<body>
+
+<%- include("partials/nav") %>
+
+<!-- ---------- hero ---------- -->
+<section class="in-hero" id="top">
+  <img class="bg" src="/ins.jpg" alt="MSA-GNIT Chapter inauguration at the GNIT Auditorium">
+</section>
+
+<!-- ---------- title (below the photo) ---------- -->
+<section class="in-title" style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="eyebrow reveal">Where it all began</div>
+    <h1 class="reveal">The <span class="grad">Inauguration</span> of MSA-GNIT</h1>
+    <div class="in-meta reveal">
+      <div><svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path stroke-linecap="round" d="M16 2v4M8 2v4M3 10h18"/></svg>November 19, 2025</div>
+      <div><svg viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 3"/></svg>10:30 AM – 2:30 PM</div>
+      <div><svg viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>GNIT Auditorium, Kolkata</div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- story + stats ---------- -->
+<section id="story" style="padding-top:64px;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">The launch story</div>
+        <h2>A new era of <span>innovation</span></h2>
+      </div>
+    </div>
+    <div class="story-grid">
+      <div class="story-text reveal">
+        <p>On <strong>November 19th, 2025</strong>, Guru Nanak Institute of Technology (GNIT), Kolkata, launched its <strong>MSA-GNIT Chapter</strong>, marking the start of a new era of innovation and student empowerment on campus. The inauguration featured an impactful awareness session on <strong>Microsoft Technologies &amp; Services</strong>, designed to nurture future-ready tech talent.</p>
+        <p>The chapter hosted two keynote speakers whose sessions on <strong>GitHub &amp; open-source for beginners</strong> and <strong>building applications using generative AI</strong> inspired every student in the auditorium to think beyond boundaries and start building.</p>
+        <p>This inauguration marked the beginning of a community where students grow together, share opportunities, build projects, and contribute to the global tech ecosystem — with a mission to empower students with <strong>technical excellence, leadership opportunities, and global exposure</strong> through Microsoft.</p>
+      </div>
+      <div class="in-stats reveal">
+        <div class="in-stat"><div class="num">2</div><div class="lbl">Industry keynote speakers</div></div>
+        <div class="in-stat"><div class="num">4<span>hrs</span></div><div class="lbl">Of sessions, demos &amp; Q&amp;A</div></div>
+        <div class="in-stat"><div class="num">1st</div><div class="lbl">MSA chapter at GNIT Kolkata</div></div>
+        <div class="in-stat"><div class="num">6</div><div class="lbl">Domains launched with the chapter</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- speakers ---------- -->
+<section id="speakers" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">Keynotes</div>
+        <h2>Inaugural <span>Speakers</span></h2>
+      </div>
+      <p>Two builders from the industry set the tone for what this chapter is about.</p>
+    </div>
+    <div class="speakers-grid">
+      <div class="speaker reveal">
+        <span class="s-topic">GitHub &amp; Open-Source for Beginners</span>
+        <h3>Aditya Seth</h3>
+        <div class="s-role">Gold Microsoft Learn Student Ambassador · Software Engineer, Techno Billion AI</div>
+        <p class="s-desc">Walked students through the world of open source — how GitHub works, why contribution matters, and how a first-year student can land their first merged pull request.</p>
+      </div>
+      <div class="speaker reveal">
+        <span class="s-topic">Building Applications Using Generative AI</span>
+        <h3>Gourav Ghosal</h3>
+        <div class="s-role">Full-Stack Developer, Truxt.ai · Hackathon Mentor &amp; Judge</div>
+        <p class="s-desc">Showed what it takes to ship real products on top of generative AI — from prompt design to production — and why students should start building now.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- agenda ---------- -->
+<section id="agenda" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">How the day ran</div>
+        <h2>Event <span>Agenda</span></h2>
+      </div>
+    </div>
+    <div class="agenda">
+      <div class="agenda-item reveal">
+        <div class="agenda-time">10:30 AM</div><div class="agenda-dot"></div>
+        <div class="agenda-body"><h3>Reporting &amp; Registration</h3><p>Students arrive at the GNIT Auditorium and check in.</p></div>
+      </div>
+      <div class="agenda-item reveal">
+        <div class="agenda-time">11:00 AM</div><div class="agenda-dot"></div>
+        <div class="agenda-body"><h3>Welcome Remarks &amp; Chapter Inauguration</h3><p>Official launch of the MSA-GNIT Chapter and an awareness session on Microsoft Technologies &amp; Services.</p></div>
+      </div>
+      <div class="agenda-item reveal">
+        <div class="agenda-time">11:30 AM</div><div class="agenda-dot"></div>
+        <div class="agenda-body"><h3>Session 1 — GitHub &amp; Open-Source for Beginners</h3><p>Aditya Seth on version control, collaboration, and making your first open-source contribution.</p></div>
+      </div>
+      <div class="agenda-item reveal">
+        <div class="agenda-time">12:45 PM</div><div class="agenda-dot"></div>
+        <div class="agenda-body"><h3>Session 2 — Building Applications Using GEN-AI</h3><p>Gourav Ghosal on designing and shipping applications powered by generative AI.</p></div>
+      </div>
+      <div class="agenda-item reveal">
+        <div class="agenda-time">2:00 PM</div><div class="agenda-dot"></div>
+        <div class="agenda-body"><h3>Q&amp;A with the Speakers</h3><p>Open floor — careers, projects, ambassadorship, and everything in between.</p></div>
+      </div>
+      <div class="agenda-item reveal">
+        <div class="agenda-time">2:30 PM</div><div class="agenda-dot"></div>
+        <div class="agenda-body"><h3>Closing</h3><p>Vote of thanks and the start of the MSA-GNIT community.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- gallery ---------- -->
+<section id="gallery" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">Moments</div>
+        <h2>Photo <span>Gallery</span></h2>
+      </div>
+      <p>Click any photo to view it full-size.</p>
+    </div>
+    <div class="in-gallery" id="inGallery"></div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="cta-panel">
+    <div class="cta-inner reveal">
+      <div>
+        <h2>The inauguration was just the beginning.</h2>
+        <p>See everything the chapter has run since — workshops, tech talks, and more.</p>
+      </div>
+      <a href="/events" class="btn btn-primary">Explore our events <span class="arrow">↗</span></a>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>
+
+<!-- ---------- lightbox ---------- -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-nav" id="lightboxPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg></button>
+  <div class="lightbox-viewport">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close photo"><svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="lightbox-track" id="lightboxTrack"></div>
+  </div>
+  <button class="lightbox-nav" id="lightboxNext" aria-label="Next photo"><svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></button>
+</div>
+
+<script>
+  // Inauguration photos — files live in /public. Add or remove freely.
+  const PHOTOS = [
+    'in1.png','in2.png','in3.png',
+    'in5.JPG','in6.JPG','in7.JPG',
+    'in8.jpg','in9.jpg','in10.jpg',
+    'in11.jpg','in12.jpg','ins.jpeg'
+  ];
+
+  // build gallery tiles
+  const gallery = document.getElementById('inGallery');
+  PHOTOS.forEach((src, i) => {
+    const tile = document.createElement('button');
+    tile.className = 'in-tile reveal';
+    tile.setAttribute('aria-label', `Inauguration photo ${i + 1}`);
+    const img = document.createElement('img');
+    img.src = `/${src}`;
+    img.alt = `Inauguration photo ${i + 1}`;
+    img.loading = 'lazy';
+    img.onerror = () => tile.remove();
+    tile.appendChild(img);
+    tile.addEventListener('click', () => openLightbox(i));
+    gallery.appendChild(tile);
+  });
+  // re-run reveal wiring for the tiles injected after site.js ran
+  (function(){
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    gallery.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.setProperty('--delay', `${Math.min(i, 6) * 0.06}s`);
+      obs.observe(el);
+    });
+  })();
+
+  // lightbox carousel
+  const lightbox = document.getElementById('lightbox');
+  const lightboxTrack = document.getElementById('lightboxTrack');
+  let currentPhotoIndex = 0;
+  let trackBuilt = false;
+
+  function buildTrack(){
+    lightboxTrack.innerHTML = '';
+    PHOTOS.forEach((src, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'lightbox-slide';
+      const img = document.createElement('img');
+      img.src = `/${src}`;
+      img.alt = `Photo ${i + 1} of ${PHOTOS.length}`;
+      slide.appendChild(img);
+      const caption = document.createElement('span');
+      caption.className = 'lightbox-caption';
+      caption.textContent = `Photo ${i + 1} of ${PHOTOS.length}`;
+      slide.appendChild(caption);
+      lightboxTrack.appendChild(slide);
+    });
+    trackBuilt = true;
+  }
+  function positionTrack(animate){
+    lightboxTrack.style.transition = animate ? '' : 'none';
+    lightboxTrack.style.transform = `translateX(-${currentPhotoIndex * 100}%)`;
+    if(!animate){
+      void lightboxTrack.offsetHeight;
+      lightboxTrack.style.transition = '';
+    }
+  }
+  function openLightbox(index){
+    if(!trackBuilt) buildTrack();
+    currentPhotoIndex = index;
+    positionTrack(false);
+    lightbox.classList.add('open');
+    document.body.classList.add('locked');
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.classList.remove('locked');
+  }
+  function slideNext(){ currentPhotoIndex = (currentPhotoIndex + 1) % PHOTOS.length; positionTrack(true); }
+  function slidePrev(){ currentPhotoIndex = (currentPhotoIndex - 1 + PHOTOS.length) % PHOTOS.length; positionTrack(true); }
+
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxNext').addEventListener('click', slideNext);
+  document.getElementById('lightboxPrev').addEventListener('click', slidePrev);
+  lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLightbox();
+    else if(e.key === 'ArrowRight') slideNext();
+    else if(e.key === 'ArrowLeft') slidePrev();
+  });
+</script>
+
+</body>
+</html>

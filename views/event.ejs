@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include("partials/head") %>
+<style>
+  /* ---------- hero (static gradient) ---------- */
+  .vhero{position:relative;height:100vh;min-height:560px;overflow:hidden;background:var(--bg);padding:0;}
+  .vhero::before{
+    content:'';position:absolute;inset:-6%;z-index:1;
+    background:
+      radial-gradient(ellipse 60% 50% at 8% 0%, rgba(216,59,1,0.32), transparent 60%),
+      radial-gradient(ellipse 55% 55% at 92% 100%, rgba(110,20,35,0.36), transparent 60%),
+      linear-gradient(180deg, rgba(251,243,238,0.55) 0%, rgba(251,243,238,0.35) 40%, var(--bg) 96%);
+    background-size:140% 140%, 140% 140%, 100% 100%;
+    animation:driftGlow 14s ease-in-out infinite;
+  }
+  .vhero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:calc(var(--header-h) + 20px) 32px 60px;}
+  .vhero-content > *{opacity:0;animation:fadeUp .8s cubic-bezier(.16,.84,.44,1) forwards;}
+  .vhero .eyebrow{justify-content:center;margin-bottom:22px;animation-delay:.05s;}
+  .vhero h1{
+    font-family:var(--font-display);font-weight:800;
+    font-size:clamp(34px,6vw,68px);line-height:1.08;letter-spacing:-0.01em;
+    max-width:900px;
+    animation-delay:.16s;
+  }
+  .vhero h1 .grad{background:linear-gradient(100deg,var(--cyan),var(--azure) 55%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .vhero p{margin-top:20px;color:var(--text-mid);max-width:520px;font-size:16px;line-height:1.7;animation-delay:.3s;}
+  .scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text-dim);font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:0;animation:fadeUp .8s cubic-bezier(.16,.84,.44,1) forwards;animation-delay:.6s;}
+  .scroll-cue svg{width:16px;height:16px;stroke:var(--cyan);fill:none;animation:bounce 1.8s ease-in-out infinite;}
+
+  /* ---------- event cards ---------- */
+  .events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .event-card{
+    text-align:left;width:100%;
+    background:linear-gradient(180deg,var(--bg-panel),var(--bg-panel-2));
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    transition:transform .35s cubic-bezier(.16,.84,.44,1), border-color .3s ease, box-shadow .3s ease;
+    display:flex;flex-direction:column;
+  }
+  .event-card:hover, .event-card:focus-visible{transform:translateY(-6px);border-color:rgba(217,72,27,0.4);box-shadow:0 24px 44px -26px rgba(216,59,1,0.55);}
+  .event-thumb{
+    position:relative;height:150px;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .event-thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;}
+  .event-thumb svg{width:34px;height:34px;stroke:rgba(255,255,255,0.92);fill:none;position:relative;z-index:2;transition:transform .4s cubic-bezier(.16,.84,.44,1);animation:floatY 3.2s ease-in-out infinite;}
+  .event-card:hover .event-thumb svg{transform:scale(1.15) rotate(-6deg);animation-play-state:paused;}
+  .event-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg, rgba(30,10,6,0.55), transparent 60%);z-index:1;}
+  .event-tag{
+    position:absolute;top:12px;left:12px;z-index:2;
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    padding:5px 10px;border-radius:999px;
+    background:rgba(30,10,6,0.55);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.18);color:#fff;
+  }
+  .event-body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .event-date{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);letter-spacing:.03em;}
+  .event-body h3{font-family:var(--font-display);font-size:19px;font-weight:700;color:var(--text-hi);}
+  .event-body p{color:var(--text-mid);font-size:14px;line-height:1.65;flex:1;}
+  .event-link{
+    margin-top:6px;display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--font-mono);font-size:12.5px;color:var(--cyan);
+  }
+  .event-link svg{width:13px;height:13px;stroke:currentColor;fill:none;transition:transform .25s ease;}
+  .event-card:hover .event-link svg{transform:translate(3px,-3px);}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:300;
+    background:rgba(40,14,8,0.72);backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;padding:24px;
+    opacity:0;pointer-events:none;transition:opacity .35s ease;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:auto;}
+  .modal-panel{
+    width:min(880px,100%);max-height:86vh;overflow-y:auto;
+    background:linear-gradient(180deg,var(--bg-panel),var(--bg-panel-2));
+    border:1px solid var(--line);border-radius:20px;
+    transform:translateY(24px) scale(.97);opacity:0;
+    transition:transform .4s cubic-bezier(.16,.84,.44,1), opacity .35s ease;
+  }
+  .modal-overlay.open .modal-panel{transform:translateY(0) scale(1);opacity:1;}
+  .modal-hero{position:relative;height:190px;display:flex;align-items:flex-end;padding:24px;overflow:hidden;}
+  .modal-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+  .modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg, rgba(30,10,6,0.7), rgba(30,10,6,0.15));z-index:1;}
+  .modal-hero svg.deco{position:absolute;width:120px;height:120px;stroke:rgba(255,255,255,0.14);fill:none;top:-20px;right:-10px;animation:spin 18s linear infinite;transform-origin:center;z-index:1;}
+  .modal-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:rgba(30,10,6,0.4);border:1px solid rgba(255,255,255,0.2);color:#fff;position:relative;z-index:2;align-self:flex-start;}
+  .modal-close{
+    position:absolute;top:16px;right:16px;z-index:4;
+    width:38px;height:38px;border-radius:50%;
+    background:rgba(30,10,6,0.55);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.22);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .25s cubic-bezier(.16,.84,.44,1), background .25s ease;
+  }
+  .modal-close:hover{transform:rotate(90deg);background:rgba(30,10,6,0.8);}
+  .modal-close svg{width:16px;height:16px;stroke:currentColor;fill:none;}
+  .modal-body{padding:28px 32px 36px;}
+  .modal-body .m-date{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);}
+  .modal-body h2{font-family:var(--font-display);font-size:clamp(22px,3vw,30px);font-weight:700;margin-top:8px;margin-bottom:16px;color:var(--text-hi);}
+  .modal-body .m-desc{color:var(--text-mid);font-size:14.5px;line-height:1.8;}
+  .modal-body .m-desc p + p{margin-top:12px;}
+  .m-post-link{
+    display:inline-flex;align-items:center;gap:8px;margin-top:18px;
+    font-family:var(--font-mono);font-size:12.5px;color:var(--cyan);
+    border:1px solid rgba(217,72,27,0.3);border-radius:999px;padding:8px 16px;
+    transition:background .25s ease, border-color .25s ease, transform .25s ease;
+  }
+  .m-post-link:hover{background:rgba(217,72,27,0.08);border-color:rgba(217,72,27,0.55);transform:translateY(-2px);}
+  .m-post-link svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
+  .gallery-head{margin-top:32px;margin-bottom:16px;font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .photo-tile{
+    position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);
+    transition:transform .3s cubic-bezier(.16,.84,.44,1);
+    opacity:0;
+    animation:fadeUp .5s cubic-bezier(.16,.84,.44,1) forwards;
+    animation-delay:var(--delay,0s);
+    background:var(--bg-panel-2);
+  }
+  .photo-tile img{width:100%;height:100%;object-fit:cover;}
+  .photo-tile:hover{transform:scale(1.04);}
+  .photo-tile svg{width:22px;height:22px;stroke:rgba(255,255,255,0.85);fill:none;}
+  .photo-tile span.fallback-label{position:absolute;bottom:6px;left:8px;font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,0.75);}
+
+  /* ---------- lightbox (sliding carousel) ---------- */
+  .lightbox{position:fixed;inset:0;z-index:400;background:rgba(26,9,5,0.9);display:flex;align-items:center;justify-content:center;gap:18px;opacity:0;pointer-events:none;transition:opacity .3s ease;padding:32px;}
+  .lightbox.open{opacity:1;pointer-events:auto;}
+  .lightbox-viewport{
+    width:min(720px,100%);aspect-ratio:4/3;border-radius:16px;overflow:hidden;position:relative;
+    transform:scale(.9);transition:transform .4s cubic-bezier(.16,.84,.44,1);
+    box-shadow:0 40px 80px -30px rgba(0,0,0,0.7);
+    background:#000;
+  }
+  .lightbox.open .lightbox-viewport{transform:scale(1);}
+  .lightbox-track{display:flex;height:100%;width:100%;transition:transform .5s cubic-bezier(.16,.84,.44,1);}
+  .lightbox-slide{
+    flex:0 0 100%;height:100%;
+    display:flex;align-items:center;justify-content:center;position:relative;
+    background:#000;
+  }
+  .lightbox-slide img{width:100%;height:100%;object-fit:contain;}
+  .lightbox-slide svg{width:44px;height:44px;stroke:rgba(255,255,255,0.9);fill:none;transition:transform .5s cubic-bezier(.16,.84,.44,1);}
+  .lightbox-slide .lightbox-caption{
+    position:absolute;bottom:16px;left:18px;
+    font-family:var(--font-mono);font-size:12px;color:rgba(255,255,255,0.8);
+    letter-spacing:.04em;
+    background:rgba(0,0,0,0.4);padding:4px 10px;border-radius:999px;
+  }
+  .lightbox-close{position:absolute;top:26px;right:26px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.25);color:#fff;display:flex;align-items:center;justify-content:center;transition:transform .25s ease, background .25s ease;z-index:2;}
+  .lightbox-close:hover{transform:rotate(90deg);background:rgba(255,255,255,0.16);}
+  .lightbox-close svg{width:16px;height:16px;stroke:currentColor;fill:none;}
+  .lightbox-nav{
+    width:46px;height:46px;border-radius:50%;flex-shrink:0;
+    background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.22);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .25s cubic-bezier(.16,.84,.44,1), background .25s ease, border-color .25s ease;
+  }
+  .lightbox-nav svg{width:18px;height:18px;stroke:currentColor;fill:none;}
+  .lightbox-nav:hover{background:rgba(255,255,255,0.18);border-color:rgba(217,72,27,0.5);transform:scale(1.08);}
+  .lightbox-nav:active{transform:scale(0.94);}
+
+  @media (max-width:960px){
+    .events-grid{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:720px){
+    .lightbox-nav{width:38px;height:38px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .vhero-content > *, .scroll-cue{opacity:1 !important;}
+    .vhero::before{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<%- include("partials/nav") %>
+
+<!-- ---------- hero ---------- -->
+<section class="vhero" id="top">
+  <div class="vhero-content">
+    <div class="eyebrow">Recap Reel</div>
+    <h1>A year of building, <span class="grad">together.</span></h1>
+    <p>Watch the highlights from our workshops, hackathons, and community sessions — then dive into the full story below.</p>
+  </div>
+  <div class="scroll-cue">Scroll<svg viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg></div>
+</section>
+
+<!-- ---------- event cards ---------- -->
+<section id="events">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">What we've run</div>
+        <h2>Our <span>Events</span></h2>
+      </div>
+      <p>Every card below is a real session our chapter ran. Click one to open the full write-up and photo gallery.</p>
+    </div>
+    <div class="events-grid" id="eventsGrid"></div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="cta-panel">
+    <div class="cta-inner reveal">
+      <div>
+        <h2>Want your event featured here?</h2>
+        <p>Domain leads can submit a recap and photos after any chapter-run session.</p>
+      </div>
+      <a href="/#collaborate" class="btn btn-primary">Get in touch <span class="arrow">↗</span></a>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>
+
+<!-- ---------- details modal ---------- -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-panel" id="modalPanel">
+    <div class="modal-hero" id="modalHeroBg">
+      <svg class="deco" viewBox="0 0 24 24" stroke-width="1"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+      <span class="modal-tag" id="modalTag">Workshop</span>
+      <button class="modal-close" id="modalClose" aria-label="Close details"><svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="m-date" id="modalDate">Feb 14, 2026</div>
+      <h2 id="modalTitle">Event name</h2>
+      <div class="m-desc" id="modalDesc"></div>
+      <a class="m-post-link" id="modalPostLink" href="#" target="_blank" rel="noopener" style="display:none;"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.11 20.45H3.56V9h3.55v11.45z"/></svg>View this event's post on LinkedIn</a>
+      <div class="gallery-head">Photos</div>
+      <div class="gallery-grid" id="modalGallery"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------- lightbox: sliding photo carousel ---------- -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-nav" id="lightboxPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg></button>
+  <div class="lightbox-viewport">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close photo"><svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="lightbox-track" id="lightboxTrack"></div>
+  </div>
+  <button class="lightbox-nav" id="lightboxNext" aria-label="Next photo"><svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></button>
+</div>
+
+<script>
+  /* =========================================================
+     1. Event data — `photos` is an array of real filenames
+        (relative to /public). Add or remove entries here as
+        your gallery changes.
+
+        NOTE: browsers cannot display .HEIC files. Convert any
+        .HEIC photos to .jpg/.png first, then update the
+        filenames below to match.
+  ========================================================= */
+  const GRADIENTS = [
+    'linear-gradient(135deg,#d83b01,#6e1423)',
+    'linear-gradient(135deg,#e8532e,#d83b01)',
+    'linear-gradient(135deg,#6e1423,#ffb900)',
+    'linear-gradient(135deg,#ffb900,#e8532e)',
+    'linear-gradient(135deg,#d83b01,#e8532e)',
+    'linear-gradient(135deg,#6e1423,#d83b01)'
+  ];
+  const ICONS = {
+    workshop:'<path stroke-linecap="round" stroke-linejoin="round" d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.77z"/>',
+    hackathon:'<path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L4 21l4-5.75L4 9l5.75 4L14 9l-4 5.75L14 21l-4.25-4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 4l1.5 3L20 8.5 16.5 10 15 13l-1.5-3L10 8.5 13.5 7z"/>',
+    talk:'<path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.97-4.03 9-9 9-1.5 0-2.9-.36-4.14-1L3 21l1.06-3.68A8.96 8.96 0 013 12c0-4.97 4.03-9 9-9s9 4.03 9 9z"/>',
+    community:'<path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m5-2.13a4 4 0 100-8 4 4 0 000 8zm8 4a4 4 0 00-3-3.87M5 8.13A4 4 0 108 4a4 4 0 00-3 4.13z"/>'
+  };
+
+  const events = [
+    {
+      icon:'community', tag:'Launch', date:'Nov 19, 2025',
+      name:'MSA-GNIT Chapter Launch',
+      short:'The inauguration of the MSA-GNIT Chapter at GNIT Kolkata, featuring an awareness session on Microsoft Technologies and two industry keynote speakers.',
+      full:[
+        'On November 19th, Guru Nanak Institute of Technology (GNIT), Kolkata, launched its MSA-GNIT Chapter, marking the start of a new era of innovation and student empowerment. The inauguration included an impactful awareness session on Microsoft Technologies & Services, designed to nurture future-ready tech talent on campus.',
+        'The chapter hosted two keynote speakers: Mr. Aditya Seth, a Gold Microsoft Learn Student Ambassador and Software Engineer at Techno Billion AI, and Mr. Gourav Ghosal, a Full-Stack Developer at Truxt.ai and mentor/judge at leading hackathons. Their sessions on GitHub & Open-Source for Beginners, and Building Applications Using Generative AI, inspired every student in the auditorium to think beyond boundaries and start building.',
+        'This inauguration marked the beginning of a community where students grow together, share opportunities, build projects, and contribute to the global tech ecosystem. The MSA-GNIT Chapter’s mission is to empower students with technical excellence, leadership opportunities, and global exposure through Microsoft. <a href="/inaugural" style="color:var(--cyan);">Visit the full Inaugural page →</a>'
+      ],
+      post:'https://www.linkedin.com/posts/msa-gnit_microsoft-msagnit-gnit-activity-7394392339617685504-9itQ',
+      thumbnail:'ins.jpg',
+      photos:[
+        'in1.png','in2.png','in3.png',
+        'in5.JPG','in6.JPG','in7.JPG',
+        'in8.jpg','in9.jpg','in10.jpg','in11.jpg',
+        'in12.jpg'
+      ]
+    },
+    {
+      icon:'workshop', tag:'Workshop', date:'May 2, 2026',
+      name:'Prompt & Context-Based Approach to AI Agents',
+      short:'A hands-on Microsoft Teams workshop diving into Generative AI, advanced prompt engineering, and how context shapes different AI agents.',
+      full:[
+        'The Microsoft Student Ambassadors – GNIT Chapter hosted an engaging workshop titled "Detailed Hands-On: A Prompt & Context-Based Approach to Different Types of AI Agents," held over Microsoft Teams. The session offered a deep dive into Generative AI, covering advanced prompt engineering techniques and exploring how context shapes the behavior of different AI agents. Attendees actively participated, asking questions and getting hands-on with real concepts throughout the workshop.',
+        'The event featured an outstanding lineup of speakers: Gourav Chandra (Web Development Lead), Debarghya Sengupta (Cloud Computing Lead), Ishita Das (PR Management Lead), and Ismat Sayeed (App Development Lead), each breaking down complex topics with clarity and ease. The session wrapped up on a high note with an interactive quiz hosted by Aishani Hazra (Cybersecurity Lead), testing participants’ understanding in a fun, competitive format.',
+        'With enthusiastic participation throughout, the workshop reflected growing interest in AI, with more hands-on sessions and community events planned ahead.'
+      ],
+      post:'https://www.linkedin.com/posts/msa-gnit_msagnit-microsoftstudentambassadors-artificialintelligence-activity-7458139445620367360-KuDA',
+      photos:['ps1.jpg','ps2.jpg','ps3.jpg','ps4.jpg','ps5.jpg','ps6.jpg']
+    },
+    {
+      icon:'talk', tag:'Tech Talk', date:'Nov 2, 2025',
+      name:'Open Source Awareness — From User to Contributor',
+      short:'A Microsoft Teams session covering what open source is, why it matters, and how to start contributing, with a live GitHub demo and Q&A.',
+      full:[
+        'The Microsoft Student Ambassadors, GNIT Chapter successfully conducted an engaging session on Open Source Awareness on 2nd November 2025, hosted by Gourav Chandra (Web Development Lead) via Microsoft Teams.',
+        'The session covered everything from what open source is and why it matters to how to start contributing, along with a live GitHub demo and interactive Q&A. Participants gained valuable insights into real-world contribution workflows and version control.'
+      ],
+      post:'https://www.linkedin.com/posts/msa-gnit_microsoftstudentambassador-msagnit-opensource-activity-7391115611705237505-bODn',
+      photos:['os1.jpg','os2.jpg','os3.jpg']
+    }
+  ];
+
+  /* =========================================================
+     2. Render event cards
+  ========================================================= */
+  const grid = document.getElementById('eventsGrid');
+  events.forEach((ev, i) => {
+    const card = document.createElement('button');
+    card.className = 'event-card reveal';
+    card.style.setProperty('--delay', `${Math.min(i,5) * 0.08}s`);
+    const thumbSrc = ev.thumbnail ? `/${ev.thumbnail}` : (ev.photos && ev.photos.length ? `/${ev.photos[0]}` : '');
+    card.innerHTML = `
+      <div class="event-thumb" style="background:${GRADIENTS[i % GRADIENTS.length]}">
+        ${thumbSrc ? `<img src="${thumbSrc}" alt="${ev.name}" loading="lazy">` : ''}
+        <span class="event-tag">${ev.tag}</span>
+        <svg viewBox="0 0 24 24" stroke-width="1.6">${ICONS[ev.icon]}</svg>
+      </div>
+      <div class="event-body">
+        <div class="event-date">${ev.date}</div>
+        <h3>${ev.name}</h3>
+        <p>${ev.short}</p>
+        <span class="event-link">View full story <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10"/></svg></span>
+      </div>`;
+    card.addEventListener('click', () => openModal(ev, i, card));
+    grid.appendChild(card);
+  });
+  // wire up reveal for cards injected after site.js ran
+  (function(){
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    grid.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  })();
+
+  /* =========================================================
+     3. Modal: full description + photo gallery
+  ========================================================= */
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalHeroBg = document.getElementById('modalHeroBg');
+  const modalTag = document.getElementById('modalTag');
+  const modalDate = document.getElementById('modalDate');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalGallery = document.getElementById('modalGallery');
+  let lastFocused = null;
+
+  function renderGallery(ev){
+    modalGallery.innerHTML = '';
+    ev.photos.forEach((src, i) => {
+      const tile = document.createElement('button');
+      tile.className = 'photo-tile';
+      tile.setAttribute('aria-label', `${ev.name} photo ${i + 1}`);
+      const img = document.createElement('img');
+      img.src = `/${src}`;
+      img.alt = `${ev.name} photo ${i + 1}`;
+      img.loading = 'lazy';
+      img.onerror = () => {
+        tile.innerHTML = `<svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 15l-5-5-9 9"/></svg><span class="fallback-label">Photo ${i + 1}</span>`;
+      };
+      tile.appendChild(img);
+      tile.style.setProperty('--delay', `${Math.min(i,8) * 0.05}s`);
+      tile.addEventListener('click', () => openLightbox(ev, i));
+      modalGallery.appendChild(tile);
+    });
+  }
+
+  function openModal(ev, i, trigger){
+    lastFocused = trigger;
+    const gradient = GRADIENTS[i % GRADIENTS.length];
+    const heroSrc = ev.thumbnail ? ev.thumbnail : (ev.photos && ev.photos.length ? ev.photos[0] : null);
+    modalHeroBg.style.background = gradient;
+    modalHeroBg.querySelector('img')?.remove();
+    if(heroSrc){
+      const img = document.createElement('img');
+      img.src = `/${heroSrc}`;
+      img.alt = ev.name;
+      img.onerror = () => img.remove();
+      modalHeroBg.prepend(img);
+    }
+    modalTag.textContent = ev.tag;
+    modalDate.textContent = ev.date;
+    modalTitle.textContent = ev.name;
+    modalDesc.innerHTML = ev.full.map(p => `<p>${p}</p>`).join('');
+    const postLink = document.getElementById('modalPostLink');
+    if(ev.post){ postLink.href = ev.post; postLink.style.display = 'inline-flex'; }
+    else { postLink.style.display = 'none'; }
+    renderGallery(ev);
+    modalOverlay.classList.add('open');
+    document.body.classList.add('locked');
+    document.getElementById('modalClose').focus();
+  }
+  function closeModal(){
+    modalOverlay.classList.remove('open');
+    document.body.classList.remove('locked');
+    if(lastFocused) lastFocused.focus();
+  }
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', e => { if(e.target === modalOverlay) closeModal(); });
+
+  /* =========================================================
+     4. Lightbox: sliding photo carousel
+  ========================================================= */
+  const lightbox = document.getElementById('lightbox');
+  const lightboxTrack = document.getElementById('lightboxTrack');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+  let currentGalleryEv = null;
+  let currentPhotoIndex = 0;
+
+  function buildLightboxTrack(ev){
+    lightboxTrack.innerHTML = '';
+    ev.photos.forEach((src, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'lightbox-slide';
+      const img = document.createElement('img');
+      img.src = `/${src}`;
+      img.alt = `Photo ${i + 1} of ${ev.photos.length}`;
+      img.onerror = () => {
+        slide.innerHTML = `<svg viewBox="0 0 24 24" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 15l-5-5-9 9"/></svg><span class="lightbox-caption">Photo ${i + 1} of ${ev.photos.length}</span>`;
+      };
+      slide.appendChild(img);
+      const caption = document.createElement('span');
+      caption.className = 'lightbox-caption';
+      caption.textContent = `Photo ${i + 1} of ${ev.photos.length}`;
+      slide.appendChild(caption);
+      lightboxTrack.appendChild(slide);
+    });
+  }
+  function positionTrack(animate){
+    lightboxTrack.style.transition = animate ? '' : 'none';
+    lightboxTrack.style.transform = `translateX(-${currentPhotoIndex * 100}%)`;
+    if(!animate){
+      void lightboxTrack.offsetHeight;
+      lightboxTrack.style.transition = '';
+    }
+  }
+  function openLightbox(ev, index){
+    currentGalleryEv = ev;
+    currentPhotoIndex = index;
+    buildLightboxTrack(ev);
+    positionTrack(false);
+    lightbox.classList.add('open');
+  }
+  function slideNext(){
+    if(!currentGalleryEv) return;
+    currentPhotoIndex = (currentPhotoIndex + 1) % currentGalleryEv.photos.length;
+    positionTrack(true);
+  }
+  function slidePrev(){
+    if(!currentGalleryEv) return;
+    currentPhotoIndex = (currentPhotoIndex - 1 + currentGalleryEv.photos.length) % currentGalleryEv.photos.length;
+    positionTrack(true);
+  }
+  function closeLightbox(){ lightbox.classList.remove('open'); }
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  lightboxNext.addEventListener('click', slideNext);
+  lightboxPrev.addEventListener('click', slidePrev);
+  lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
+
+  document.addEventListener('keydown', e => {
+    if(lightbox.classList.contains('open')){
+      if(e.key === 'Escape') closeLightbox();
+      else if(e.key === 'ArrowRight') slideNext();
+      else if(e.key === 'ArrowLeft') slidePrev();
+      return;
+    }
+    if(e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+  });
+</script>
+
+</body>
+</html>
