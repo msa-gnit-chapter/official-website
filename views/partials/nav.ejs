@@ -10,6 +10,7 @@
     { href: "/inaugural",  label: "Inaugural" },
     { href: "/blogs",      label: "Blogs" },
     { href: "/#ms-tech",   label: "Resources" },
+    { href: "/#collaborate", label: "Collaborate" },
     { href: "/#contact",   label: "Contact" }
   ];
 %>
@@ -18,8 +19,8 @@
     <a href="/" class="brand">
       <img class="brand-mark" src="/MSA_LOGO.jpeg" alt="MSA GNIT logo">
       <div class="brand-text">
-        <div class="l1">Microsoft Student Ambassadors,</div>
-        <div class="l1">GNIT Chapter</div>
+        <div class="l1">MSA-GNIT</div>
+        <div class="l1">Chapter</div>
       </div>
     </a>
     <nav class="links">
@@ -27,7 +28,7 @@
         <a href="<%= l.href %>" <%= l.href === cp ? 'aria-current="page"' : "" %>><%= l.label %></a>
       <% }) %>
     </nav>
-    <a href="/#collaborate" class="nav-cta"><span>Join the Chapter <span class="arrow-inline">→</span></span></a>
+    <a href="" class="nav-cta"><span>Join the Chapter <span class="arrow-inline">→</span></span></a>
     <button class="nav-toggle" aria-label="menu">☰</button>
   </div>
 </header>

@@ -20,9 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.render("index", {
     currentPath: "/",
-    title: "MSA GNIT | Microsoft Student Ambassadors — GNIT Chapter",
+    title: "Microsoft Student Ambassadors, GNIT Chapter",
     description:
-      "The student-run Microsoft Ambassador chapter at Guru Nanak Institute of Technology, Kolkata — workshops, hackathons, and Microsoft technologies for students.",
+      "The student-run Microsoft Ambassador chapter at Guru Nanak Institute of Technology, Kolkata - workshops, hackathons, and Microsoft technologies for students.",
     msTech,
   });
 });
@@ -33,7 +33,7 @@ app.get("/events", (req, res) => {
     currentPath: "/events",
     title: "Events | MSA GNIT",
     description:
-      "Workshops, tech talks, and community sessions run by the Microsoft Student Ambassadors GNIT Chapter.",
+      "Workshops, tech talks, and community sessions run by the Microsoft Student Ambassadors, GNIT Chapter.",
   });
 });
 
@@ -43,7 +43,7 @@ app.get("/team", (req, res) => {
     currentPath: "/team",
     title: "Core Team & Advisors | MSA GNIT",
     description:
-      "Meet the core team and advisors behind the Microsoft Student Ambassadors GNIT Chapter.",
+      "Meet the core team and advisors behind the Microsoft Student Ambassadors, GNIT Chapter.",
     coreTeam,
     advisors,
   });
@@ -55,7 +55,7 @@ app.get("/faculty", (req, res) => {
     currentPath: "/faculty",
     title: "Faculty | MSA GNIT",
     description:
-      "The Principal and faculty in-charge of Guru Nanak Institute of Technology who guide the Microsoft Student Ambassadors GNIT Chapter.",
+      "The Principal and faculty in-charge of Guru Nanak Institute of Technology who guide the Microsoft Student Ambassadors, GNIT Chapter.",
     principal,
     facultyIncharge,
   });
@@ -67,7 +67,7 @@ app.get("/inaugural", (req, res) => {
     currentPath: "/inaugural",
     title: "Inaugural | MSA GNIT",
     description:
-      "The inauguration of the MSA-GNIT Chapter — November 19, 2025, GNIT Auditorium, Kolkata. Speakers, agenda, and photo gallery.",
+      "The inauguration of the MSA-GNIT Chapter - November 19, 2025, GNIT Auditorium, Kolkata. Speakers, agenda, and photo gallery.",
   });
 });
 
