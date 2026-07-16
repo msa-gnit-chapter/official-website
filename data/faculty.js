@@ -36,18 +36,9 @@ const facultyIncharge = [
     name: "Dr. Mahamuda Sultana",
     role: "Club Faculty In-charge",
     dept: "Department of Computer Science & Engineering, GNIT",
-    intro: "Placeholder — add a short intro for the faculty in-charge who mentors and guides the MSA-GNIT chapter.",
+    intro: "The faculty in-charge who mentors and guides the MSA-GNIT chapter.",
     photo: "facultyIncharge.jpg",
-    linkedin: "",
-    email: ""
-  },
-  {
-    name: "Add Faculty In-charge Name",
-    role: "Club Faculty Co-in-charge",
-    dept: "Department of ______, GNIT",
-    intro: "Placeholder — add a short intro for the co-in-charge faculty (remove this entry if there's only one in-charge).",
-    photo: "",         // e.g. "faculty-incharge-2.jpg"
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/mahamuda-sultana",
     email: ""
   }
 ];

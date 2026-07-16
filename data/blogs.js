@@ -71,13 +71,14 @@ const blogs = [
     link: "https://www.linkedin.com/posts/msa-gnit_microsoft-microsoftappliedskills-microsoftcertification-activity-7377960465278222336-yPZ3"
   },
   {
-    title: "Azure for Students — $100 Free Credit",
-    excerpt: "Get USD 100 in Azure credit plus free access to dozens of popular cloud services — no credit card required. Verify with your GNIT student email and start deploying real projects, from web apps to AI models, on Microsoft's cloud.",
-    author: "Microsoft Azure",
-    date: "Ongoing — renews yearly",
+    title: "Microsoft Learn Program (MLP) - Phase 1 & 2",
+    excerpt: "Dive into hands-on learning learning paths, modules & certifications designed from Microsoft Learn Platform to build your skills in web development, app development, data science, cloud computing, and more — all on Microsoft's cloud.",
+    author: "MSA-GNIT Chapter",
+    date: "Renews every semester",
     tag: "Student Offer",
+    image: "updates-MLP.jpg",
     banner: "linear-gradient(135deg,#e8532e,#a62b08)",
-    link: "https://azure.microsoft.com/free/students"
+    link: "https://learn.microsoft.com/?wt.mc_id=studentamb_474813"
   }
 ];
 
