@@ -99,7 +99,7 @@ const coreTeam = [
   {
     name: "SWAPNIL BASU",
     role: "Content",
-    intro: "",
+    intro: "Leads the chapter's content strategy, including blogs, newsletters, and social media campaigns.",
     photoCard: true,
     photo: "content-lead.jpg",
     linkedin: "",
