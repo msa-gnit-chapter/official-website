@@ -34,58 +34,74 @@ const coreTeam = [
     github: ""
   },
   {
-    name: "",
+    name: "GOURAV CHANDRA",
     role: "Web Development",
     intro: "Builds and maintains the chapter's web presence. Hosted the Open Source Awareness session — taking students from open-source user to contributor with a live GitHub demo.",
+    photoCard: true,
+    photo: "web-lead.jpg",
     linkedin: "",
     github: ""
   },
   {
-    name: "",
+    name: "ISMAT SAYEED",
     role: "App Development",
     intro: "Handles mobile and cross-platform app development in the chapter, turning student ideas into installable apps and demystifying the app lifecycle in hands-on sessions.",
+     photoCard: true,
+    photo: "app-lead.jpg",
     linkedin: "",
     github: ""
   },
   {
-    name: "",
+    name: "IMON DEY",
     role: "AI-ML",
     intro: "Guides students through the AI/ML technologies promoted by Microsoft.",
+    photoCard: true,
+    photo: "ai-ml-lead.jpg",
     linkedin: "",
     github: ""
   },
   {
-    name: "",
+    name: "AISHANI HAZRA",
     role: "Cybersecurity",
     intro: "Drives the chapter's security awareness efforts and hosted the interactive quiz round at our AI agents workshop.",
+    photoCard: true,
+    photo: "cybersecurity-lead.jpg",
     linkedin: "",
     github: ""
   },
   {
-    name: "",
+    name: "DEBARGHYA SENGUPTA",
     role: "Cloud Computing",
     intro: "Manages the Azure and cloud initiatives in the chapter.",
+    photoCard: true,
+    photo: "cloud-lead.jpg",
     linkedin: "",
     github: ""
   },
   {
-    name: "",
+    name: "TITAS DAS",
     role: "Data Science",
     intro: "Guides the Microsoft Fabric technologies for data enthusiasts.",
+    photoCard: true,
+    photo: "data-science-lead.jpg",
     linkedin: "",
     github: ""
   },
   {
-    name: "",
+    name: "ISHITA DAS",
     role: "PR & Management",
     intro: "Runs the chapter's outreach, partnerships, and event coordination.",
+    photoCard: true,
+    photo: "pr-management-lead.jpg",
     linkedin: "",
     github: ""
   },
   {
-    name: "",
+    name: "SWAPNIL BASU",
     role: "Content",
     intro: "",
+    photoCard: true,
+    photo: "content-lead.jpg",
     linkedin: "",
     github: ""
   }
