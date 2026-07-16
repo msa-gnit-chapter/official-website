@@ -26,16 +26,16 @@
 const coreTeam = [
   {
     name: "AYUSH SINGH",
-    role: "Chapter Lead / President",
-    intro: "Chapter Lead of MSA-GNIT — drives the chapter's vision, flagship events, and the growing community of student builders at GNIT.",
+    role: "Chapter Lead - Microsoft Student Ambassadors (ASSOCIATE)",
+    intro: "Chapter Lead of MSA-GNIT - drives the chapter's vision, flagship events, and has grown the community from 250 to 900+ members, organized a cross-campus workshop reaching 200+ students, encouraged participation from student builders at GNIT.",
     photoCard: true,
     photo: "chapter-lead.jpg",
     linkedin: "https://www.linkedin.com/in/ayushsin9h/",
-    github: ""
+    github: "",
+    microsoft: "https://mvp.microsoft.com/en-US/studentambassadors/profile/cbd27418-45b6-46a7-8231-ba1c1a777cd9"
   },
   {
-    name: "GOURAV CHANDRA",
-    role: "Web Development",
+    role: "Web Development Lead",
     intro: "Builds and maintains the chapter's web presence. Hosted the Open Source Awareness session — taking students from open-source user to contributor with a live GitHub demo.",
     photoCard: true,
     photo: "web-lead.jpg",
@@ -43,8 +43,7 @@ const coreTeam = [
     github: ""
   },
   {
-    name: "ISMAT SAYEED",
-    role: "App Development",
+    role: "App Development Lead",
     intro: "Handles mobile and cross-platform app development in the chapter, turning student ideas into installable apps and demystifying the app lifecycle in hands-on sessions.",
      photoCard: true,
     photo: "app-lead.jpg",
@@ -52,8 +51,7 @@ const coreTeam = [
     github: ""
   },
   {
-    name: "IMON DEY",
-    role: "AI-ML",
+    role: "AI-ML Lead",
     intro: "Guides students through the AI/ML technologies promoted by Microsoft.",
     photoCard: true,
     photo: "ai-ml-lead.jpg",
@@ -61,8 +59,7 @@ const coreTeam = [
     github: ""
   },
   {
-    name: "AISHANI HAZRA",
-    role: "Cybersecurity",
+    role: "Cybersecurity Lead",
     intro: "Drives the chapter's security awareness efforts and hosted the interactive quiz round at our AI agents workshop.",
     photoCard: true,
     photo: "cybersecurity-lead.jpg",
@@ -70,8 +67,7 @@ const coreTeam = [
     github: ""
   },
   {
-    name: "DEBARGHYA SENGUPTA",
-    role: "Cloud Computing",
+    role: "Cloud Computing Lead",
     intro: "Manages the Azure and cloud initiatives in the chapter.",
     photoCard: true,
     photo: "cloud-lead.jpg",
@@ -79,8 +75,7 @@ const coreTeam = [
     github: ""
   },
   {
-    name: "TITAS DAS",
-    role: "Data Science",
+    role: "Data Science Lead",
     intro: "Guides the Microsoft Fabric technologies for data enthusiasts.",
     photoCard: true,
     photo: "data-science-lead.jpg",
@@ -88,8 +83,7 @@ const coreTeam = [
     github: ""
   },
   {
-    name: "ISHITA DAS",
-    role: "PR & Management",
+    role: "PR & Management Lead",
     intro: "Runs the chapter's outreach, partnerships, and event coordination.",
     photoCard: true,
     photo: "pr-management-lead.jpg",
@@ -97,8 +91,7 @@ const coreTeam = [
     github: ""
   },
   {
-    name: "SWAPNIL BASU",
-    role: "Content",
+    role: "Content Lead",
     intro: "Leads the chapter's content strategy, including blogs, newsletters, and social media campaigns.",
     photoCard: true,
     photo: "content-lead.jpg",

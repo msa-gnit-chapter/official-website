@@ -20,7 +20,7 @@
 
 // The Principal — shown as a single large featured card up top.
 const principal = {
-  name: "Prof. (Dr.) Swarup Kumar Mitra Principal",
+  name: "Prof. (Dr.) Swarup Kumar Mitra",
   role: "Principal",
   dept: "Guru Nanak Institute of Technology, Kolkata",
   intro: "GNIT is a multidisciplinary education hub and seat of integrated learning promoting unfettered liberal thinking, creativity and innovation in the domain of Technology, Management Sciences, and Applied Sciences.",
@@ -33,8 +33,8 @@ const principal = {
 // Add or remove entries freely.
 const facultyIncharge = [
   {
-    name: "Dr. Mahamuda Sultana",
-    role: "Club Faculty In-charge",
+    name: "Prof. (Dr.) Mahamuda Sultana",
+    role: "Club Faculty In-charge / Professor",
     dept: "Department of Computer Science & Engineering, GNIT",
     intro: "The faculty in-charge who mentors and guides the MSA-GNIT chapter.",
     photo: "facultyIncharge.jpg",
