@@ -112,7 +112,7 @@
     </div>
     <div class="team-grid">
       <% coreTeam.forEach((m, i) => { %>
-        <div class="person reveal <%= isPlaceholder(m.name) ? "placeholder" : "" %>">
+        <div class="person reveal <%= (isPlaceholder(m.name) && !m.photo) ? "placeholder" : "" %>">
           <% if (m.photoCard) { %>
             <div class="photo-frame <%= m.photo ? "has-photo" : "" %>">
               <% if (m.photo) { %><img src="/<%= m.photo %>" alt="<%= displayName(m.name) %>"><% } else { %>
@@ -121,7 +121,7 @@
               <% } %>
             </div>
           <% } else { %>
-            <div class="avatar" style="background:<%= AV_GRADIENTS[i % AV_GRADIENTS.length] %>">
+            <div class="avatar" style="background: <%= AV_GRADIENTS[i % AV_GRADIENTS.length] %>">
               <% if (m.photo) { %><img src="/<%= m.photo %>" alt="<%= displayName(m.name) %>"><% } else { %><%= isPlaceholder(m.name) ? "?" : initialsOf(m.name) %><% } %>
             </div>
           <% } %>
@@ -152,7 +152,7 @@
     </div>
     <div class="advisor-grid">
       <% advisors.forEach((a, i) => { %>
-        <div class="person reveal <%= isPlaceholder(a.name) ? "placeholder" : "" %>">
+        <div class="person reveal <%= (isPlaceholder(a.name) && !a.photo) ? "placeholder" : "" %>">
           <% if (a.photoCard) { %>
             <div class="photo-frame <%= a.photo ? "has-photo" : "" %>">
               <% if (a.photo) { %><img src="/<%= a.photo %>" alt="<%= displayName(a.name) %>"><% } else { %>
@@ -161,12 +161,12 @@
               <% } %>
             </div>
           <% } else { %>
-            <div class="avatar" style="background:<%= AV_GRADIENTS[(i+2) % AV_GRADIENTS.length] %>">
+            <div class="avatar" style="background: <%= AV_GRADIENTS[(i+2) % AV_GRADIENTS.length] %>">
               <% if (a.photo) { %><img src="/<%= a.photo %>" alt="<%= displayName(a.name) %>"><% } else { %><%= isPlaceholder(a.name) ? "?" : initialsOf(a.name) %><% } %>
             </div>
           <% } %>
           <h3><%= displayName(a.name) %></h3>
-          <div class="role"><%= a.role %></div>
+          <div class="role"><b><%= a.role %></b></div>
           <p class="intro"><%= a.intro %></p>
           <% if (a.linkedin) { %>
             <div class="plinks">

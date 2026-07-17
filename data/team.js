@@ -25,9 +25,9 @@
 
 const coreTeam = [
   {
-    name: "AYUSH SINGH",
-    role: "Chapter Lead - Microsoft Student Ambassadors (ASSOCIATE)",
-    intro: "Chapter Lead of MSA-GNIT - drives the chapter's vision, flagship events, and has grown the community from 250 to 900+ members, organized a cross-campus workshop reaching 200+ students, encouraged participation from student builders at GNIT.",
+    name: "",
+    role: "Chapter Lead - Microsoft Student Ambassador (ASSOCIATE)",
+    intro: "Drives the MSA-GNIT Chapter's vision and flagship events, has grown the community from 250 to 800+ members, organized a cross-campus workshop reaching 200+ students, and encouraged participation among student builders at GNIT.",
     photoCard: true,
     photo: "chapter-lead.jpg",
     linkedin: "https://www.linkedin.com/in/ayushsin9h/",
@@ -102,7 +102,7 @@ const coreTeam = [
 
 const advisors = [
   {
-    name: "PIYUSH KUMAR",
+    name: "",
     role: "FOUNDER & ADVISOR",
     intro: "Microsoft Learn Student Ambassador (Beta)",
     photoCard: true,
@@ -110,7 +110,7 @@ const advisors = [
     linkedin: ""
   },
   {
-    name: " RISHAV GUPTA",
+    name: "",
     role: "Veteran Advisor",
     intro: "",
     photoCard: true,
@@ -118,7 +118,7 @@ const advisors = [
     linkedin: ""
   },
   {
-    name: "ADARSH JAISWAL",
+    name: "",
     role: "Veteran Advisor",
     intro: "",
     photoCard: true,
@@ -126,7 +126,7 @@ const advisors = [
     linkedin: ""
   },
    {
-    name: "ADITYA KUMAR JHA",
+    name: "",
     role: "Veteran Advisor",
     intro: "",
     photoCard: true,

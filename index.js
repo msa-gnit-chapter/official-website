@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
     currentPath: "/",
     title: "Microsoft Student Ambassadors, GNIT Chapter",
     description:
-      "The student-run Microsoft Ambassador chapter at Guru Nanak Institute of Technology, Kolkata - workshops, hackathons, and Microsoft technologies for students.",
+      "The student-run Microsoft Student Ambassadors Chapter at Guru Nanak Institute of Technology - encourages hands-on learning, workshops, and hackathons, using Microsoft technologies for students.",
     msTech,
   });
 });
